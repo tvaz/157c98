@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "@material-ui/core";
 import { SenderBubble, OtherUserBubble } from "../ActiveChat";
 import moment from "moment";
@@ -8,7 +7,12 @@ const Messages = (props) => {
 
   return (
     <Box>
-      {messages.map((message) => {
+      {messages
+        // We want the messages to display with the newest at the bottom
+        .sort((msg1, msg2) => {
+          return moment(msg2.createdAt).isBefore(moment(msg1.createdAt));
+        })
+        .map((message) => {
         const time = moment(message.createdAt).format("h:mm");
 
         return message.senderId === userId ? (
@@ -16,7 +20,8 @@ const Messages = (props) => {
         ) : (
           <OtherUserBubble key={message.id} text={message.text} time={time} otherUser={otherUser} />
         );
-      })}
+      })
+    }
     </Box>
   );
 };
