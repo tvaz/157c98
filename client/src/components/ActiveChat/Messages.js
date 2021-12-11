@@ -10,7 +10,7 @@ const Messages = (props) => {
       {messages
         // We want the messages to display with the newest at the bottom
         .sort((msg1, msg2) => {
-          return moment(msg2.createdAt).isBefore(moment(msg1.createdAt));
+          return moment(msg1.createdAt).isAfter(moment(msg2.createdAt)) ? 1 : -1;
         })
         .map((message) => {
         const time = moment(message.createdAt).format("h:mm");
