@@ -6,7 +6,8 @@ export const addMessageToStore = (state, payload) => {
       const newConvo = {
         ...convo,
         id: message.conversationId,
-        messages: [message, ...convo.messages],
+        //Append to end so the newest messages display first
+        messages: [...convo.messages, message],
         latestMessageText: message.text
       }
       return newConvo;

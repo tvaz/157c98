@@ -5,6 +5,7 @@ import {
   removeOfflineUserFromStore,
   addMessageToStore,
 } from "./utils/reducerFunctions";
+import moment from "moment";
 
 // ACTIONS
 
@@ -21,8 +22,16 @@ const ADD_CONVERSATION = "ADD_CONVERSATION";
 export const gotConversations = (conversations) => {
   return {
     type: GET_CONVERSATIONS,
-    conversations,
-  };
+    // Sort the conversations after fetching
+    conversations: conversations.map((convo) => {
+       return {
+         ...convo,
+         messages: convo.messages.sort(
+          (msg1, msg2) => {
+          return moment(msg1.createdAt)
+          .isAfter(moment(msg2.createdAt)) ? 1 : -1;
+         })}
+  })}
 };
 
 export const setNewMessage = (message, sender) => {
