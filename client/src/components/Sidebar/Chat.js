@@ -28,11 +28,23 @@ const Chat = (props) => {
     await props.setActiveChat(conversation.otherUser.username);
   };
 
+  const showUnread = (conversation) => {
+    if (conversation.messages.length > 0 ){
+    var lengthofmsgs = conversation.messages.length - 1;
+    var most_recent = conversation.messages[lengthofmsgs];
+    var senderId = most_recent.senderId;
+
+    if (senderId === otherUser.id ) {
+      return conversation.unread;
+    }
+  }
+    return 0;
+  }
+
   return (
     <Badge
-      badgeContent={ conversation.unread }
+      badgeContent={ showUnread(conversation) }
       color="primary"
-      showZero="true"
       overlap="rectangle"
       anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
       >
