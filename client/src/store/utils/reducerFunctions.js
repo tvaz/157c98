@@ -8,7 +8,8 @@ export const addMessageToStore = (state, payload) => {
         id: message.conversationId,
         //Append to end so the newest messages display first
         messages: [...convo.messages, message],
-        latestMessageText: message.text
+        latestMessageText: message.text,
+        unread: convo.unread+1
       }
       return newConvo;
     } else {
@@ -68,7 +69,8 @@ export const addNewConvoToStore = (state, recipientId, message) => {
             ...convo,
            id: message.conversationId,
            messages: [message],
-           latestMessageText: message.text
+           latestMessageText: message.text,
+           unread: 1
          }
          return newConvo;
          } else {
