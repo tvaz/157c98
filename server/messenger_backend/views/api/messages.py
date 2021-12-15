@@ -25,10 +25,13 @@ class Messages(APIView):
             # if we already know conversation id, we can save time and just add it to message and return
             if conversation_id:
                 conversation = Conversation.objects.filter(id=conversation_id).first()
+                # Increment the unread counter on the conversation
+                conversation.unreadMessages += 1
                 message = Message(
                     senderId=sender_id, text=text, conversation=conversation
                 )
                 message.save()
+                conversation.save()
                 message_json = message.to_dict()
                 return JsonResponse({"message": message_json, "sender": body["sender"]})
 
