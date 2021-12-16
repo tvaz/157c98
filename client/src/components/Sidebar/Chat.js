@@ -33,12 +33,11 @@ const Chat = (props) => {
       // We need the most recent (last) message
       const messages_len = conversation.messages.length
       if (messages_len > 0) {
-        senderId = conversation.messages[messages_len - 1].senderId;
-      }
-      // If the sender of the last message is the other user,
-      // We want to show the unread messages bubble
-      if (senderId === otherUser.id ) {
-        return conversation.unread;
+        if (conversation.messages[messages_len - 1].senderId === otherUser.ud ) {
+          // If the sender of the last message is the other user,
+          // We want to show the unread messages bubble
+          return conversation.unread;
+        }
       }
     }
       return 0;
