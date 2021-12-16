@@ -3,13 +3,14 @@ export const addMessageToStore = (state, payload) => {
 
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
+      const unread = (convo.latestSender === sender) ? convo.unread+1 : 0
       const newConvo = {
         ...convo,
         id: message.conversationId,
         //Append to end so the newest messages display first
         messages: [...convo.messages, message],
         latestMessageText: message.text,
-        unread: convo.unread+1
+        unread: unread
       }
       return newConvo;
     } else {
