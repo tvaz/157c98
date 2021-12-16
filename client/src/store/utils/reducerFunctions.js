@@ -58,7 +58,6 @@ export const addSearchedUsersToStore = (state, users) => {
       newState.push(fakeConvo);
     }
   });
-
   return newState;
 };
 
@@ -77,4 +76,19 @@ export const addNewConvoToStore = (state, recipientId, message) => {
          return convo;
         }
    });
+}
+
+export const clearUnreadFromStore = (state, conversationId) => {
+  const newState = state.map((convo) => {
+    if(convo.id === conversationId) {
+      const newConvo = {
+        ...convo,
+        unread: 0
+      }
+      return newConvo;
+    } else {
+      return convo;
+    }
+  });
+  return newState;
 };

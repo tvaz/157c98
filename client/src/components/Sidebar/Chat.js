@@ -33,7 +33,7 @@ const Chat = (props) => {
       // We need the most recent (last) message
       const messages_len = conversation.messages.length
       if (messages_len > 0) {
-        if (conversation.messages[messages_len - 1].senderId === otherUser.ud ) {
+        if (conversation.messages[messages_len - 1].senderId === otherUser.id ) {
           // If the sender of the last message is the other user,
           // We want to show the unread messages bubble
           return conversation.unread;
@@ -49,6 +49,7 @@ const Chat = (props) => {
       color="primary"
       overlap="rectangle"
       anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
+      showZero="true" //DEBUG
       >
     <Box onClick={() => handleClick(conversation)} className={classes.root}>
       <BadgeAvatar
