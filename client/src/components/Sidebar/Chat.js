@@ -49,7 +49,6 @@ const Chat = (props) => {
       color="primary"
       overlap="rectangle"
       anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
-      showZero="true" //DEBUG
       >
     <Box onClick={() => handleClick(conversation)} className={classes.root}>
       <BadgeAvatar

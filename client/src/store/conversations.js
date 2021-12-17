@@ -78,7 +78,7 @@ export const addConversation = (recipientId, newMessage) => {
   };
 };
 
-export const clearUnread = ( conversationId ) => {
+export const clearUnreadMessages = ( conversationId ) => {
   return {
     type: CLEAR_UNREAD,
     payload: { conversationId },

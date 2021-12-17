@@ -16,7 +16,7 @@ class Conversation(utils.CustomModel):
     createdAt = models.DateTimeField(auto_now_add=True, db_index=True)
     updatedAt = models.DateTimeField(auto_now=True)
 
-    unreadMessages = models.IntegerField(default=0)
+    unreadMessages = models.IntegerField(default=1)
 
     # find conversation given two user Ids
     def find_conversation(user1Id, user2Id):

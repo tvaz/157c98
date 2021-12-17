@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import { Input, Header, Messages } from "./index";
-import { clearUnread } from "../../store/conversations";
 import { connect } from "react-redux";
+import { clearUnread } from "../../store/utils/thunkCreators";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,12 +26,11 @@ const ActiveChat = (props) => {
   const { user } = props;
   const conversation = props.conversation || {};
 
-  if (conversation.unread > 0) {
+  if (conversation.unread > 0 && conversation.latestSender != user.id) {
     // Whenever this view is rendered,
     // We want to call a function that will
     // Clear this number back to 0 on the server
     // As well as update the store
-    //TODO Need to check if the last sender was this user also
     props.clearUnread(conversation)
   }
 
@@ -53,6 +52,7 @@ const ActiveChat = (props) => {
               otherUser={conversation.otherUser}
               conversationId={conversation.id}
               user={user}
+              latestSender={conversation.latestSender}
             />
           </Box>
         </>

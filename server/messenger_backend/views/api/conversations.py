@@ -13,13 +13,19 @@ class Conversations(APIView):
     include other user model so we have info on username/profile pic (don't include current user info)
     TODO: for scalability, implement lazy loading"""
 
-    def get(self, request: Request):
+    def get(self, request: Request, clear: int=None):
         try:
             user = get_user(request)
 
             if user.is_anonymous:
                 return HttpResponse(status=401)
             user_id = user.id
+
+            if clear:
+                conversation = Conversation.objects.filter(id=clear).first()
+                conversation.unread = 0
+                conversation.save()
+                return HttpResponse(status=200)
 
             conversations = (
                 Conversation.objects.filter(Q(user1=user_id) | Q(user2=user_id))
@@ -45,6 +51,7 @@ class Conversations(APIView):
 
                 # set properties for notification count and latest message preview
                 convo_dict["latestMessageText"] = convo_dict["messages"][0]["text"]
+                convo_dict["latestSender"] = convo_dict["messages"][0]["senderId"]
 
                 # set a property "otherUser" so that frontend will have easier access
                 user_fields = ["id", "username", "photoUrl"]

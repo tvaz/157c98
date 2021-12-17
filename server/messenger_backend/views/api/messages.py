@@ -21,12 +21,18 @@ class Messages(APIView):
             text = body.get("text")
             recipient_id = body.get("recipientId")
             sender = body.get("sender")
+            latestSender = body.get("latestSender")
 
             # if we already know conversation id, we can save time and just add it to message and return
             if conversation_id:
                 conversation = Conversation.objects.filter(id=conversation_id).first()
-                # Increment the unread counter on the conversation
-                conversation.unreadMessages += 1
+                if latestSender == sender_id:
+                    # Increment the unread counter on the conversation
+                    conversation.unreadMessages += 1
+                else: # Reset the count
+                    conversation.unreadMessages = 1
+                    conversation.latestSender = sender_id
+
                 message = Message(
                     senderId=sender_id, text=text, conversation=conversation
                 )
