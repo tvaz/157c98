@@ -26,13 +26,15 @@ const ActiveChat = (props) => {
   const { user } = props;
   const conversation = props.conversation || {};
 
-  if (conversation.unread > 0 && conversation.latestSender != user.id) {
-    // Whenever this view is rendered,
-    // We want to call a function that will
-    // Clear this number back to 0 on the server
-    // As well as update the store
-    props.clearUnread(conversation)
-  }
+  if (conversation.latestSender) {
+    if (conversation.unread > 0 && conversation.latestSender != user.id) {
+      // Whenever this view is rendered,
+      // We want to call a function that will
+      // Clear this number back to 0 on the server
+      // As well as update the store
+      props.clearUnread(conversation)
+    }
+ }
 
   return (
     <Box className={classes.root}>

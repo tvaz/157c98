@@ -73,6 +73,8 @@ export const addNewConvoToStore = (state, recipientId, message) => {
            id: message.conversationId,
            messages: [message],
            latestMessageText: message.text,
+           latestSender: message.senderId,
+           unread: 1
          }
          return newConvo;
          } else {
