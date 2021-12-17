@@ -121,7 +121,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 };
 
 export const clearUnread = (conversationId) => async (dispatch) => {
-  const result = await axios.get(`/api/conversations?clear=${conversationId}`);
+  await axios.get(`/api/conversations?clear=${conversationId}`);
   dispatch(clearUnreadMessages( conversationId ))
-  return conversationId;
+  return;
 };

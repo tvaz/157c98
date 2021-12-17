@@ -21,9 +21,11 @@ class Conversations(APIView):
                 return HttpResponse(status=401)
             user_id = user.id
 
-            if clear:
-                conversation = Conversation.objects.filter(id=clear).first()
-                conversation.unread = 0
+            # Clear the notifications and return if we got a "clear" url param
+            conversation_id = request.query_params.get('clear')
+            if conversation_id:
+                conversation = Conversation.objects.filter(id=conversation_id).first()
+                conversation.unreadMessages = 0
                 conversation.save()
                 return HttpResponse(status=200)
 

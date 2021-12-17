@@ -3,7 +3,9 @@ export const addMessageToStore = (state, payload) => {
 
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
+      // Determine if to reset the notifications or add another:
       const unread = (convo.latestSender === message.senderId) ? convo.unread+1 : 0
+
       const newConvo = {
         ...convo,
         id: message.conversationId,
