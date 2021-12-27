@@ -27,7 +27,8 @@ const ActiveChat = (props) => {
   const conversation = props.conversation || {};
 
   if (conversation.latestSender) {
-    if (conversation.unread > 0 && conversation.latestSender != user.id) {
+    if ( conversation.unread > 0
+         && conversation.latestSender === conversation.otherUser.id){
       // Whenever this view is rendered,
       // We want to call a function that will
       // Clear this number back to 0 on the server
@@ -49,6 +50,8 @@ const ActiveChat = (props) => {
               messages={conversation.messages}
               otherUser={conversation.otherUser}
               userId={user.id}
+              unread={conversation.unread}
+              latestSender={conversation.latestSender}
             />
             <Input
               otherUser={conversation.otherUser}
