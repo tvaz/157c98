@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     marginLeft: 20,
-    flexGrow: 1,
   },
   username: {
     fontWeight: "bold",
