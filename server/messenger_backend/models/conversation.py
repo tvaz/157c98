@@ -28,3 +28,10 @@ class Conversation(utils.CustomModel):
             )
         except Conversation.DoesNotExist:
             return None
+
+    def clearMessages(self):
+        self.unreadMessages = 0;
+        self.save()
+        for message in self.messages.all():
+            message.read = True
+            message.save()

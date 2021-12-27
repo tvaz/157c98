@@ -90,7 +90,6 @@ const sendMessage = (data, body) => {
     recipientId: body.recipientId,
     sender: data.sender,
     latestSender: data.latestSender,
-    read: false,
   });
 };
 
@@ -122,7 +121,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 };
 
 export const clearUnread = (conversationId) => async (dispatch) => {
-  await axios.get(`/api/conversations?clear=${conversationId}`);
+  await axios.post(`/api/conversations?clear=${conversationId}`);
   dispatch(clearUnreadMessages( conversationId ))
   return;
 };
