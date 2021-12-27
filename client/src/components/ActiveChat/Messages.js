@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const Messages = (props) => {
   const { messages, otherUser, userId, unread, latestSender} = props;
 
+  // Calculate the index of the message we want to show the last read badge on
   let index = null;
   if (unread > 0 && userId === latestSender){
   for (let i=0; i < messages.length-1 ;i++) {
@@ -29,6 +30,8 @@ const Messages = (props) => {
   }));
   const classes = useStyles();
 
+
+  // Generates the bubble component
   const generateTextBubble = (message, userId, otherUser, time, show_badge) => {
     const senderBubble = (
       <SenderBubble
@@ -41,6 +44,7 @@ const Messages = (props) => {
     return message.senderId === userId ? senderBubble : otherUserBubble
   }
 
+  // Makes the avatar
   const generateReadBadge = (otherUser) => {
     return (
       <Avatar
@@ -57,6 +61,7 @@ const Messages = (props) => {
       messages.map((message) => {
       const time = moment(message.createdAt).format("h:mm");
       const bubble = generateTextBubble(message, userId, otherUser, time);
+      // Return avatar with the bubble if this message was the last read
       return badge_id === message.id ? [bubble, generateReadBadge(otherUser)] : bubble;
       })
       }
