@@ -4,7 +4,7 @@ export const addMessageToStore = (state, payload) => {
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
       // Determine if to reset the notifications or add another:
-      const unread = (convo.latestSender === message.senderId) ? convo.unread+1 : 0
+      const unread = (convo.latestSender === message.senderId) ? convo.unread+1 : 1
 
       const newConvo = {
         ...convo,
@@ -86,8 +86,12 @@ export const addNewConvoToStore = (state, recipientId, message) => {
 export const clearUnreadFromStore = (state, conversationId) => {
   const newState = state.map((convo) => {
     if(convo.id === conversationId) {
+      const clearedMessages = convo.messages.map((message) => {
+        return {...message, read: true}
+      });
       const newConvo = {
         ...convo,
+        messages: clearedMessages,
         unread: 0
       }
       return newConvo;
