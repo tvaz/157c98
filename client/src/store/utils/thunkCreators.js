@@ -90,6 +90,7 @@ const sendMessage = (data, body) => {
     recipientId: body.recipientId,
     sender: data.sender,
     latestSender: data.latestSender,
+    read: false,
   });
 };
 
