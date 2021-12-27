@@ -14,7 +14,6 @@ class Conversations(APIView):
     TODO: for scalability, implement lazy loading"""
 
     def post(self, request: Request, clear: int=None):
-        print("POST")
         try:
             user = get_user(request)
 
