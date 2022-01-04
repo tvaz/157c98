@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, Badge } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
@@ -28,7 +28,22 @@ const Chat = (props) => {
     await props.setActiveChat(conversation.otherUser.username);
   };
 
+  const showUnread = (conversation) => {
+    if (conversation.latestSender === otherUser.id ) {
+          // If the sender of the last message is the other user,
+          // We want to show the unread messages bubble
+          return conversation.unread;
+    }
+      return 0;
+    }
+
   return (
+    <Badge
+      badgeContent={ showUnread(conversation) }
+      color="primary"
+      overlap="rectangle"
+      anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
+      >
     <Box onClick={() => handleClick(conversation)} className={classes.root}>
       <BadgeAvatar
         photoUrl={otherUser.photoUrl}
@@ -38,6 +53,8 @@ const Chat = (props) => {
       />
       <ChatContent conversation={conversation} />
     </Box>
+    </Badge>
+
   );
 };
 

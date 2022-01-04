@@ -5,6 +5,7 @@ import {
   addConversation,
   setNewMessage,
   setSearchedUsers,
+  clearUnreadMessages
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -88,6 +89,7 @@ const sendMessage = (data, body) => {
     message: data.message,
     recipientId: body.recipientId,
     sender: data.sender,
+    latestSender: data.latestSender,
   });
 };
 
@@ -116,4 +118,10 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const clearUnread = (conversationId) => async (dispatch) => {
+  await axios.put(`/api/conversations?clear=${conversationId}`);
+  dispatch(clearUnreadMessages( conversationId ))
+  return;
 };

@@ -3,12 +3,17 @@ export const addMessageToStore = (state, payload) => {
 
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
+      // Determine if to reset the notifications or add another:
+      const unread = (convo.latestSender === message.senderId) ? convo.unread+1 : 1
+
       const newConvo = {
         ...convo,
         id: message.conversationId,
         //Append to end so the newest messages display first
         messages: [...convo.messages, message],
-        latestMessageText: message.text
+        latestMessageText: message.text,
+        latestSender: message.senderId,
+        unread: unread
       }
       return newConvo;
     } else {
@@ -57,7 +62,6 @@ export const addSearchedUsersToStore = (state, users) => {
       newState.push(fakeConvo);
     }
   });
-
   return newState;
 };
 
@@ -68,11 +72,32 @@ export const addNewConvoToStore = (state, recipientId, message) => {
             ...convo,
            id: message.conversationId,
            messages: [message],
-           latestMessageText: message.text
+           latestMessageText: message.text,
+           latestSender: message.senderId,
+           unread: 1
          }
          return newConvo;
          } else {
          return convo;
         }
    });
+}
+
+export const clearUnreadFromStore = (state, conversationId) => {
+  const newState = state.map((convo) => {
+    if(convo.id === conversationId) {
+      const clearedMessages = convo.messages.map((message) => {
+        return {...message, read: true}
+      });
+      const newConvo = {
+        ...convo,
+        messages: clearedMessages,
+        unread: 0
+      }
+      return newConvo;
+    } else {
+      return convo;
+    }
+  });
+  return newState;
 };

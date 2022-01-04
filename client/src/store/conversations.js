@@ -4,6 +4,7 @@ import {
   addSearchedUsersToStore,
   removeOfflineUserFromStore,
   addMessageToStore,
+  clearUnreadFromStore
 } from "./utils/reducerFunctions";
 import moment from "moment";
 
@@ -16,6 +17,7 @@ const REMOVE_OFFLINE_USER = "REMOVE_OFFLINE_USER";
 const SET_SEARCHED_USERS = "SET_SEARCHED_USERS";
 const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
+const CLEAR_UNREAD = "CLEAR_UNREAD";
 
 // ACTION CREATORS
 
@@ -76,6 +78,13 @@ export const addConversation = (recipientId, newMessage) => {
   };
 };
 
+export const clearUnreadMessages = ( conversationId ) => {
+  return {
+    type: CLEAR_UNREAD,
+    payload: { conversationId },
+  }
+}
+
 // REDUCER
 
 const reducer = (state = [], action) => {
@@ -99,6 +108,11 @@ const reducer = (state = [], action) => {
         state,
         action.payload.recipientId,
         action.payload.newMessage
+      );
+    case CLEAR_UNREAD:
+        return clearUnreadFromStore(
+          state,
+          action.payload.conversationId
       );
     default:
       return state;

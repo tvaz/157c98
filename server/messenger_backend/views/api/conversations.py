@@ -13,7 +13,30 @@ class Conversations(APIView):
     include other user model so we have info on username/profile pic (don't include current user info)
     TODO: for scalability, implement lazy loading"""
 
-    def get(self, request: Request):
+    def put(self, request: Request, clear: int=None):
+        try:
+            user = get_user(request)
+
+            if user.is_anonymous:
+                return HttpResponse(status=401)
+            user_id = user.id
+
+            # Clear the notifications and return if we got a "clear" url param
+            conversation_id = request.query_params.get('clear')
+            if conversation_id:
+                conversation = Conversation.objects.filter(id=conversation_id).first()
+
+                if user_id not in [conversation.user1.id, conversation.user2.id]:
+                    return HttpResponse(status=403)
+
+                conversation.clearMessages();
+                conversation.save()
+                return HttpResponse(status=204)
+
+        except Exception as e:
+            return HttpResponse(status=500)
+
+    def get(self, request: Request, clear: int=None):
         try:
             user = get_user(request)
 
@@ -37,13 +60,15 @@ class Conversations(APIView):
                 convo_dict = {
                     "id": convo.id,
                     "messages": [
-                        message.to_dict(["id", "text", "senderId", "createdAt"])
+                        message.to_dict(["id", "text", "senderId", "createdAt", "read"])
                         for message in convo.messages.all()
                     ],
+                    "unread" : convo.unreadMessages,
                 }
 
                 # set properties for notification count and latest message preview
                 convo_dict["latestMessageText"] = convo_dict["messages"][0]["text"]
+                convo_dict["latestSender"] = convo_dict["messages"][0]["senderId"]
 
                 # set a property "otherUser" so that frontend will have easier access
                 user_fields = ["id", "username", "photoUrl"]
