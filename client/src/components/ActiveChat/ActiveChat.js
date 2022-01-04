@@ -29,11 +29,7 @@ const ActiveChat = (props) => {
   if (conversation.latestSender) {
     if ( conversation.unread > 0
          && conversation.latestSender === conversation.otherUser.id){
-      // Whenever this view is rendered,
-      // We want to call a function that will
-      // Clear this number back to 0 on the server
-      // As well as update the store
-      props.clearUnread(conversation)
+           props.clearUnread(conversation)
     }
  }
 
