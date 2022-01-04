@@ -29,7 +29,7 @@ const ActiveChat = (props) => {
   if (conversation.latestSender) {
     if ( conversation.unread > 0
          && conversation.latestSender === conversation.otherUser.id){
-           props.clearUnread(conversation)
+           props.clearUnread(conversation.id)
     }
  }
 
@@ -75,8 +75,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    clearUnread: (conversation) => {
-      dispatch(clearUnread(conversation.id));
+    clearUnread: (conversationId) => {
+      dispatch(clearUnread(conversationId));
     }
   };
 };
