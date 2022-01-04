@@ -20,7 +20,7 @@ const Messages = (props) => {
     }
   }
   }
-  const badge_id = index;
+  const badgeId = index;
 
   const useStyles = makeStyles(() => ({
     badge: {
@@ -30,9 +30,7 @@ const Messages = (props) => {
   }));
   const classes = useStyles();
 
-
-  // Generates the bubble component
-  const generateTextBubble = (message, userId, otherUser, time, show_badge) => {
+  const generateTextBubble = (message, userId, otherUser, time) => {
     const senderBubble = (
       <SenderBubble
         key={message.id} text={message.text} time={time} otherUser={otherUser}/>
@@ -43,8 +41,7 @@ const Messages = (props) => {
     );
     return message.senderId === userId ? senderBubble : otherUserBubble
   }
-
-  // Makes the avatar
+  
   const generateReadBadge = (otherUser) => {
     return (
       <Avatar
@@ -62,7 +59,7 @@ const Messages = (props) => {
       const time = moment(message.createdAt).format("h:mm");
       const bubble = generateTextBubble(message, userId, otherUser, time);
       // Return avatar with the bubble if this message was the last read
-      return badge_id === message.id ? [bubble, generateReadBadge(otherUser)] : bubble;
+      return badgeId === message.id ? [bubble, generateReadBadge(otherUser)] : bubble;
       })
       }
 
