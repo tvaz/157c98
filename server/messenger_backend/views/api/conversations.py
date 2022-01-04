@@ -25,9 +25,13 @@ class Conversations(APIView):
             conversation_id = request.query_params.get('clear')
             if conversation_id:
                 conversation = Conversation.objects.filter(id=conversation_id).first()
+
+                if user_id not in [conversation.user1.id, conversation.user2.id]:
+                    return HttpResponse(status=403)
+
                 conversation.clearMessages();
                 conversation.save()
-                return HttpResponse(status=200)
+                return HttpResponse(status=204)
 
         except Exception as e:
             return HttpResponse(status=500)
