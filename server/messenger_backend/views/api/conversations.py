@@ -13,7 +13,7 @@ class Conversations(APIView):
     include other user model so we have info on username/profile pic (don't include current user info)
     TODO: for scalability, implement lazy loading"""
 
-    def post(self, request: Request, clear: int=None):
+    def put(self, request: Request, clear: int=None):
         try:
             user = get_user(request)
 
